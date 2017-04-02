@@ -3,6 +3,7 @@
 #include <iostream>
 #include <iterator>
 #include <algorithm>
+#include <functional>
 
 template <class Type>
 class Vector {
@@ -73,17 +74,13 @@ void Vector<Type>::wyczysc_vector() {
 template<class Type>
 void Vector<Type>::sortowanie_rosnaco()
 {
-	std::sort(tab, tab + rozmiar, [](Type t1, Type t2) {
-		return t1 < t2;
-	});
+	std::sort(tab, tab + rozmiar, std::less<Type>());
 }
 
 template<class Type>
 void Vector<Type>::sortowanie_malejaco()
 {
-	std::sort(tab, tab + rozmiar, [](Type t1, Type t2) {
-		return t1 > t2;
-	});
+	std::sort(tab, tab + rozmiar, std::greater<Type>());
 }
 
 #endif // !VECTOR_H_
