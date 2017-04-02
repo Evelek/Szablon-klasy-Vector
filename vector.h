@@ -28,33 +28,33 @@ Vector<Type>::Vector()
 
 template<class Type>
 void Vector<Type>::dodaj_element(const Type &wartosc) {
-	Type *tablica_tymczasowa = new Type[rozmiar]; //utworzenie tymczasowej tablicy
+	Type *tablica_tymczasowa = new Type[rozmiar]; //utworzenie tymczasowej tablicy dynamicznej
 	for (size_t i = 0; i < rozmiar; i++) {
 		tablica_tymczasowa[i] = tab[i];  //skopiowanie wartosci z glownej tablicy do tymczasowej
 	}
-	delete[] tab; //usuniecie glownej tablicy
-	tab = new Type[rozmiar + 1]; //utworzenie nowej powiekszonej glownej tablicy
+	delete[] tab; //dealokacja pamieci tablicy glownej
+	tab = new Type[rozmiar + 1]; //alokacja pamieci nowej powiekszonej glownej tablicy
 	for (size_t i = 0; i < rozmiar; i++) {
 		tab[i] = tablica_tymczasowa[i];  //skopiowanie wartosci z tablicy tymczasowej do glownej
 	}
 	tab[rozmiar] = wartosc; //dodanie elementu do glownej tablicy
 	rozmiar++;
-	delete[] tablica_tymczasowa;
+	delete[] tablica_tymczasowa; //dealokacja pamieci tablicy tymczasowej
 }
 
 template<class Type>
 void Vector<Type>::usun_element() {
 	rozmiar--;
-	Type *tablica_tymczasowa = new Type[rozmiar]; //utworzenie tymczasowej tablicy
+	Type *tablica_tymczasowa = new Type[rozmiar]; //utworzenie tymczasowej tablicy dynamicznej
 	for (size_t i = 0; i < rozmiar; i++) {
 		tablica_tymczasowa[i] = tab[i];  //skopiowanie wartosci z glownej tablicy do tymczasowej bez ostatniego elementu
 	}
-	delete[] tab;
+	delete[] tab; //dealokacja pamieci tablicy glownej
 	tab = new Type[rozmiar]; //utworzenie nowej pomniejszonej glownej tablicy
 	for (size_t i = 0; i < rozmiar; i++) {
 		tab[i] = tablica_tymczasowa[i];  //skopiowanie wartosci z tablicy tymczasowej do glownej
 	}
-	delete[] tablica_tymczasowa;
+	delete[] tablica_tymczasowa; //dealokacja pamieci tablicy tymczasowej
 }
 
 template<class Type>
