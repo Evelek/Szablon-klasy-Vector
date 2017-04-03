@@ -1,6 +1,7 @@
 #ifndef VECTOR_H_
 #define VECTOR_H_
 #include <iostream>
+#include <new>
 #include <iterator>
 #include <algorithm>
 #include <functional>
@@ -47,8 +48,7 @@ void Vector<Type>::usun_element() {
 	Type *tablica_tymczasowa = new Type[rozmiar]; //utworzenie tymczasowej tablicy dynamicznej
 	for (size_t i = 0; i < rozmiar; i++)
 		tablica_tymczasowa[i] = tab[i];  //skopiowanie wartosci z glownej tablicy do tymczasowej bez ostatniego elementu
-	delete[] tab; //dealokacja pamieci tablicy glownej
-	tab = new Type[rozmiar]; //utworzenie nowej pomniejszonej glownej tablicy
+	tab = new (tab) Type[rozmiar]; //miejscowa wersja new
 	for (size_t i = 0; i < rozmiar; i++)
 		tab[i] = tablica_tymczasowa[i];  //skopiowanie wartosci z tablicy tymczasowej do glownej
 	delete[] tablica_tymczasowa; //dealokacja pamieci tablicy tymczasowej
@@ -57,7 +57,7 @@ void Vector<Type>::usun_element() {
 template<class Type>
 void Vector<Type>::wyswietl_vector() const {
 	for (size_t i = 0; i < rozmiar; ++i)
-		std::cout << tab[i] << " ";	
+		std::cout << tab[i] << " ";
 }
 
 template<class Type>
