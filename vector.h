@@ -22,8 +22,7 @@ public:
 };
 
 template<class Type>
-Vector<Type>::Vector()
-{
+Vector<Type>::Vector() {
 	tab = new Type[1];
 	rozmiar = 0;
 }
@@ -72,14 +71,12 @@ void Vector<Type>::wyczysc_vector() {
 }
 
 template<class Type>
-void Vector<Type>::sortowanie_rosnaco()
-{
+void Vector<Type>::sortowanie_rosnaco() {
 	std::sort(tab, tab + rozmiar, std::less<Type>());
 }
 
 template<class Type>
-void Vector<Type>::sortowanie_malejaco()
-{
+void Vector<Type>::sortowanie_malejaco() {
 	std::sort(tab, tab + rozmiar, std::greater<Type>());
 }
 
