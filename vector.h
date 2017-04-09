@@ -16,7 +16,7 @@ public:
 	Vector();															// Vector <Type> object;
 	Vector(const size_t vector_size_) : vector_size(vector_size_) {}	// Vector <Type> object(size_t);
 	Vector(const Vector &);												// Vector <Type> new_object(current_object);
-	Vector const operator=(const Vector &);								// Vector <Type> new_object = current_object;
+	Vector &operator=(const Vector &);									// Vector <Type> new_object = current_object;
 	~Vector();
 
 	void add_new_element(const Type &value);
@@ -47,8 +47,7 @@ Vector<Type>::Vector(const Vector &copy) {
 }
 
 template<class Type>
-Vector const Vector<Type>::operator=(const Vector &copy)
-{
+Vector & Vector<Type>::operator=(const Vector &copy) {
 	if (this == &copy)
 		return *this;
 
@@ -74,13 +73,13 @@ void Vector<Type>::add_new_element(const Type &value) {
 	}
 	else {
 	    /* Description:
-		 1) Alocate memory for temp_copy_vector
-		 2) Copy elements from main_vector to temp_copy_vector
-		 3) Dealocate main_vector's memory
-		 4) Alocate new memory for main_vector
-		 5) Increase capacity by 10
-		 6) Copy elements from temp_copy_vector to main_vector
-		 7) Dealocate temp_copy_vector's memory
+		   1) Alocate memory for temp_copy_vector
+		   2) Copy elements from main_vector to temp_copy_vector
+		   3) Dealocate main_vector's memory
+		   4) Alocate new memory for main_vector
+		   5) Increase capacity by 10
+		   6) Copy elements from temp_copy_vector to main_vector
+		   7) Dealocate temp_copy_vector's memory
 		*/
 
 		capacity += 10; //increase capacity by 10
@@ -130,8 +129,8 @@ void Vector<Type>::remove_element() {
 		vector_size--;
 		main_vector[vector_size] = 0;
 	}
-	else {
-	    /* Description:
+	else{
+		/* Description:
 		1) Alocate memory for temp_copy_vector
 		2) Copy elements from main_vector to temp_copy_vector
 		3) Dealocate main_vector's memory
