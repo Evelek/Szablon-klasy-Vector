@@ -15,8 +15,8 @@ private:
 public:
 	Vector();								// Vector <Type> object;
 	Vector(const size_t vector_size_) : vector_size(vector_size_) {}	// Vector <Type> object(size_t);
-	Vector(const Vector &);							// Vector <Type> new_object(current_object);
-	Vector &operator=(const Vector &);					// Vector <Type> new_object = current_object;
+	Vector(const Vector<Type> &copy);					// Vector <Type> new_object(current_object);
+	Vector <Type> &operator=(const Vector<Type> &copy);			// Vector <Type> new_object = current_object;
 	~Vector();
 
 	void add_new_element(const Type &value);
@@ -38,7 +38,7 @@ Vector<Type>::Vector() {
 }
 
 template<class Type>
-Vector<Type>::Vector(const Vector &copy) {
+Vector<Type>::Vector(const Vector<Type> &copy) {
 	capacity = copy.capacity;
 	vector_size = copy.vector_size;
 	main_vector = new Type[capacity];
@@ -47,7 +47,7 @@ Vector<Type>::Vector(const Vector &copy) {
 }
 
 template<class Type>
-Vector & Vector<Type>::operator=(const Vector &copy) {
+Vector<Type> & Vector<Type>::operator=(const Vector<Type> &copy) {
 	if (this == &copy)
 		return *this;
 
@@ -125,11 +125,13 @@ void Vector<Type>::add_new_element(const Type &value) {
 
 template<class Type>
 void Vector<Type>::remove_element() {
-	if (vector_size < capacity - 10) { //if vector_size is smaller than capacity - 10
+	if (vector_size < capacity) { //if vector_size is smaller than capacity
 		vector_size--;
 		main_vector[vector_size] = 0;
+		if (vector_size % 10 == 0 && capacity != 10)
+			capacity -= 10;
 	}
-	else{
+	else {
 		/* Description:
 		1) Alocate memory for temp_copy_vector
 		2) Copy elements from main_vector to temp_copy_vector
@@ -139,7 +141,7 @@ void Vector<Type>::remove_element() {
 		6) Copy elements from temp_copy_vector to main_vector
 		7) Dealocate temp_copy_vector's memory
 		*/
-		capacity -= 10; //increase capacity by 10
+
 		vector_size--;  //reduction vector_size by one
 
 		Type *temp_copy_vector = new Type[vector_size]; //alocate memory for temp_copy_vector which is destination for copying elements from main_vector
