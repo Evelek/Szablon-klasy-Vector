@@ -13,10 +13,10 @@ private:
 	size_t vector_size;
 	size_t capacity;
 public:
-	Vector();															// Vector <Type> object;
+	Vector();								// Vector <Type> object;
 	Vector(const size_t vector_size_) : vector_size(vector_size_) {}	// Vector <Type> object(size_t);
-	Vector(const Vector &);												// Vector <Type> new_object(current_object);
-	Vector const operator=(const Vector &);								// Vector <Type> new_object = current_object;
+	Vector(const Vector &);							// Vector <Type> new_object(current_object);
+	Vector const operator=(const Vector &);					// Vector <Type> new_object = current_object;
 	~Vector();
 
 	void add_new_element(const Type &value);
