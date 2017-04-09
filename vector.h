@@ -13,10 +13,10 @@ private:
 	size_t vector_size;
 	size_t capacity;
 public:
-	Vector();									// Vector <Type> object;
-	explicit Vector(const size_t vector_size_) : vector_size(vector_size_) {}	// Vector <Type> object(size_t);
-	Vector(const Vector &);								// Vector <Type> new_object(current_object);
-	Vector const operator=(const Vector &);						// Vector <Type> new_object = current_object;
+	Vector();															// Vector <Type> object;
+	Vector(const size_t vector_size_) : vector_size(vector_size_) {}	// Vector <Type> object(size_t);
+	Vector(const Vector &);												// Vector <Type> new_object(current_object);
+	Vector const operator=(const Vector &);								// Vector <Type> new_object = current_object;
 	~Vector();
 
 	void add_new_element(const Type &value);
@@ -74,13 +74,13 @@ void Vector<Type>::add_new_element(const Type &value) {
 	}
 	else {
 	    /* Description:
-		   1) Alocate memory for temp_copy_vector
-		   2) Copy elements from main_vector to temp_copy_vector
-		   3) Dealocate main_vector's memory
-		   4) Alocate new memory for main_vector
-		   5) Increase capacity by 10
-		   6) Copy elements from temp_copy_vector to main_vector
-		   7) Dealocate temp_copy_vector's memory
+		 1) Alocate memory for temp_copy_vector
+		 2) Copy elements from main_vector to temp_copy_vector
+		 3) Dealocate main_vector's memory
+		 4) Alocate new memory for main_vector
+		 5) Increase capacity by 10
+		 6) Copy elements from temp_copy_vector to main_vector
+		 7) Dealocate temp_copy_vector's memory
 		*/
 
 		capacity += 10; //increase capacity by 10
@@ -130,8 +130,8 @@ void Vector<Type>::remove_element() {
 		vector_size--;
 		main_vector[vector_size] = 0;
 	}
-	else{
-		/* Description:
+	else {
+	    /* Description:
 		1) Alocate memory for temp_copy_vector
 		2) Copy elements from main_vector to temp_copy_vector
 		3) Dealocate main_vector's memory
@@ -191,8 +191,9 @@ size_t Vector<Type>::size() const {
 template<class Type>
 void Vector<Type>::reset_vector() {
 	delete[] main_vector;
-	vector_size = 0;
 	capacity = 10;
+	vector_size = 0;
+	main_vector = new Type[capacity];
 }
 
 template<class Type>
