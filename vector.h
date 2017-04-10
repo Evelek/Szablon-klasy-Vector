@@ -13,10 +13,10 @@ private:
 	size_t vector_size;
 	size_t capacity;
 public:
-	Vector();								// Vector <Type> object;
-	Vector(const size_t vector_size_) : vector_size(vector_size_) {}	// Vector <Type> object(size_t);
-	Vector(const Vector<Type> &copy);					// Vector <Type> new_object(current_object);
-	Vector <Type> &operator=(const Vector<Type> &copy);			// Vector <Type> new_object = current_object;
+	Vector();															// Vector <Type> object;
+	Vector(const size_t vector_size);									// Vector <Type> object(size_t);
+	Vector(const Vector<Type> &copy);									// Vector <Type> new_object(current_object);
+	Vector <Type> &operator=(const Vector<Type> &copy);					// Vector <Type> new_object = current_object;
 	~Vector();
 
 	void add_new_element(const Type &value);
@@ -38,12 +38,22 @@ Vector<Type>::Vector() {
 }
 
 template<class Type>
+Vector<Type>::Vector(const size_t vector_size)
+{
+	capacity = (((vector_size + 9) / 10) * 10);
+	main_vector = new Type[vector_size];
+	this->vector_size = vector_size;
+	for (size_t i = 0; i < vector_size; ++i)
+		main_vector[i] = 0;
+}
+
+template<class Type>
 Vector<Type>::Vector(const Vector<Type> &copy) {
 	capacity = copy.capacity;
 	vector_size = copy.vector_size;
 	main_vector = new Type[capacity];
 	for (size_t i = 0; i < vector_size; ++i)
-		main_vector[i] = std::copy(copy.main_vector[i]);
+		main_vector[i] = std::move(copy.main_vector[i]);
 }
 
 template<class Type>
@@ -56,7 +66,7 @@ Vector<Type> & Vector<Type>::operator=(const Vector<Type> &copy) {
 	vector_size = copy.vector_size;
 	main_vector = new Type[capacity];
 	for (size_t i = 0; i < vector_size; ++i)
-		main_vector[i] = std::copy(copy.main_vector[i]);
+		main_vector[i] = std::move(copy.main_vector[i]);
 	return *this;
 }
 
