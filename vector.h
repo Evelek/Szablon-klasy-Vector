@@ -13,11 +13,14 @@ private:
 	size_t vector_size;
 	size_t capacity;
 public:
-	Vector();															// Vector <Type> object;
-	Vector(const size_t vector_size);									// Vector <Type> object(size_t);
-	Vector(const Vector<Type> &copy);									// Vector <Type> new_object(current_object);
-	Vector <Type> &operator=(const Vector<Type> &copy);					// Vector <Type> new_object = current_object;
+	Vector();												// Vector <Type> object;
+	explicit Vector(const size_t vector_size);				// Vector <Type> object(size_t);
+	Vector(const Vector<Type> &copy);						// Vector <Type> new_object(current_object);
+	Vector<Type> &operator=(const Vector<Type> &copy);		// Vector <Type> new_object = current_object;
 	~Vector();
+
+	Type & operator[](size_t element_number);
+	const Type & operator[](size_t element_number) const;
 
 	void add_new_element(const Type &value);
 	void remove_element();
@@ -40,8 +43,8 @@ Vector<Type>::Vector() {
 template<class Type>
 Vector<Type>::Vector(const size_t vector_size)
 {
-	capacity = (((vector_size + 9) / 10) * 10);
-	main_vector = new Type[vector_size];
+	capacity = (((vector_size + 9) / 10) * 10); //round to multiple of 10
+	main_vector = new Type[capacity];
 	this->vector_size = vector_size;
 	for (size_t i = 0; i < vector_size; ++i)
 		main_vector[i] = 0;
@@ -73,6 +76,18 @@ Vector<Type> & Vector<Type>::operator=(const Vector<Type> &copy) {
 template<class Type>
 Vector<Type>::~Vector() {
 	delete[] main_vector;
+}
+
+template<class Type>
+Type & Vector<Type>::operator[](size_t element_number)
+{
+	return main_vector[element_number];
+}
+
+template<class Type>
+const Type & Vector<Type>::operator[](size_t element_number) const
+{
+	return main_vector[element_number];
 }
 
 template<class Type>
@@ -218,5 +233,5 @@ void Vector<Type>::sort_descending()
 {
 	std::sort(main_vector, main_vector + vector_size, std::greater<Type>());
 }
-
+	
 #endif // !VECTOR_H_
