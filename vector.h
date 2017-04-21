@@ -15,8 +15,10 @@ private:
 public:
 	Vector();												// Vector <Type> object;
 	explicit Vector(const size_t vector_size);				// Vector <Type> object(size_t);
-	Vector(const Vector<Type> &copy);						// Vector <Type> new_object(current_object);
-	Vector<Type> &operator=(const Vector<Type> &copy);		// Vector <Type> new_object = current_object;
+	Vector(const Vector<Type> &copy_ctor);					// Vector <Type> new_object(const Vector &);
+	Vector(Vector<Type> &&move_ctor);						// Vector <Type> new_object(Vector &&);
+	Vector<Type> &operator=(const Vector<Type> &copy);		// Vector <Type> new_object = object;
+	Vector<Type> &operator=(Vector<Type> &&move_copy);		// object_two = std::move(object_one);
 	~Vector();
 
 	Type & operator[](size_t element_number);
@@ -51,12 +53,22 @@ Vector<Type>::Vector(const size_t vector_size)
 }
 
 template<class Type>
-Vector<Type>::Vector(const Vector<Type> &copy) {
-	capacity = copy.capacity;
-	vector_size = copy.vector_size;
+Vector<Type>::Vector(const Vector<Type> &copy_ctor) {
+	capacity = copy_ctor.capacity;
+	vector_size = copy_ctor.vector_size;
 	main_vector = new Type[capacity];
 	for (size_t i = 0; i < vector_size; ++i)
-		main_vector[i] = std::move(copy.main_vector[i]);
+		main_vector[i] = std::move(copy_ctor.main_vector[i]);
+}
+
+template<class Type>
+Vector<Type>::Vector(Vector<Type> &&move_ctor) {
+	vector_size = move_ctor.vector_size;
+	capacity = move_ctor.capacity;
+	main_vector = move_ctor.main_vector;
+	move_ctor.vector_size = 0;
+	move_ctor.capacity = 0;
+	move_ctor.main_vector = nullptr;
 }
 
 template<class Type>
@@ -70,6 +82,21 @@ Vector<Type> & Vector<Type>::operator=(const Vector<Type> &copy) {
 	main_vector = new Type[capacity];
 	for (size_t i = 0; i < vector_size; ++i)
 		main_vector[i] = std::move(copy.main_vector[i]);
+	return *this;
+}
+
+template<class Type>
+Vector<Type>& Vector<Type>::operator=(Vector<Type>&& move_copy) {
+	if (this == &move_copy)
+		return *this;
+	delete[] main_vector;
+
+	vector_size = move_copy.vector_size;
+	capacity = move_copy.capacity;
+	main_vector = move_copy.main_vector;
+	move_copy.vector_size = 0;
+	move_copy.capacity = 0;
+	move_copy.main_vector = nullptr;
 	return *this;
 }
 
