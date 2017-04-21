@@ -13,10 +13,10 @@ private:
 	size_t vector_size;
 	size_t capacity;
 public:
-	Vector();												// Vector <Type> object;
-	explicit Vector(const size_t vector_size);				// Vector <Type> object(size_t);
-	Vector(const Vector<Type> &copy_ctor);					// Vector <Type> new_object(const Vector &);
-	Vector(Vector<Type> &&move_ctor);						// Vector <Type> new_object(Vector &&);
+	Vector();							// Vector <Type> object;
+	explicit Vector(const size_t vector_size);			// Vector <Type> object(size_t);
+	Vector(const Vector<Type> &copy_ctor);				// Vector <Type> new_object(const Vector &);
+	Vector(Vector<Type> &&move_ctor);				// Vector <Type> new_object(Vector &&);
 	Vector<Type> &operator=(const Vector<Type> &copy);		// Vector <Type> new_object = object;
 	Vector<Type> &operator=(Vector<Type> &&move_copy);		// object_two = std::move(object_one);
 	~Vector();
