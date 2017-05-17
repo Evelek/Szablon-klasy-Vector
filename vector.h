@@ -33,7 +33,8 @@ namespace vec {
 		void sort_ascending();
 		void sort_descending();
 	};
-	
+
+	// default constructor
 	template<class Type>
 	Vector<Type>::Vector() {
 		capacity = 10;
@@ -43,6 +44,7 @@ namespace vec {
 			main_vector[i] = 0;
 	}
 
+	// constructor with argument
 	template<class Type>
 	Vector<Type>::Vector(const size_t vector_size) {
 		capacity = (((vector_size + 9) / 10) * 10); //round to multiple of 10
@@ -52,15 +54,17 @@ namespace vec {
 			main_vector[i] = 0;
 	}
 
+	// copy constructor
 	template<class Type>
 	Vector<Type>::Vector(const Vector<Type> &copy_ctor) {
 		capacity = copy_ctor.capacity;
 		vector_size = copy_ctor.vector_size;
 		main_vector = new Type[capacity];
 		for (size_t i = 0; i < vector_size; ++i)
-			main_vector[i] = std::move(copy_ctor.main_vector[i]);
+			main_vector[i] = copy_ctor.main_vector[i];
 	}
 
+	// move constructor
 	template<class Type>
 	Vector<Type>::Vector(Vector<Type> &&move_ctor) {
 		vector_size = move_ctor.vector_size;
@@ -71,24 +75,28 @@ namespace vec {
 		move_ctor.main_vector = nullptr;
 	}
 
+	// operator =
 	template<class Type>
 	Vector<Type> & Vector<Type>::operator=(const Vector<Type> &copy) {
 		if (this == &copy)
 			return *this;
 
 		delete[] main_vector;
+
 		capacity = copy.capacity;
 		vector_size = copy.vector_size;
 		main_vector = new Type[capacity];
 		for (size_t i = 0; i < vector_size; ++i)
-			main_vector[i] = std::move(copy.main_vector[i]);
+			main_vector[i] = copy.main_vector[i];
 		return *this;
 	}
 
+	// move operator =
 	template<class Type>
 	Vector<Type>& Vector<Type>::operator=(Vector<Type>&& move_copy) {
 		if (this == &move_copy)
 			return *this;
+
 		delete[] main_vector;
 
 		vector_size = move_copy.vector_size;
@@ -132,44 +140,44 @@ namespace vec {
 			7) Dealocate temp_copy_vector's memory
 			*/
 
-			capacity += 10; //increase capacity by 10
+			capacity += 10; // increase capacity by 10
 
-			Type *temp_copy_vector = new Type[vector_size]; //alocate memory for temp_copy_vector which is destination for copying elements from main_vector
-			Type *pointer = &main_vector[vector_size]; //point one-past-the-end element of main_vector
-			size_t pointer_moves = 0; //variable counts temp_copy_vector's and main_vector's moves during copying elements
+			Type *temp_copy_vector = new Type[vector_size]; // alocate memory for temp_copy_vector which is destination for copying elements from main_vector
+			Type *pointer = &main_vector[vector_size]; // point one-past-the-end element of main_vector
+			size_t pointer_moves = 0; // variable counts temp_copy_vector's and main_vector's moves during copying elements
 
-									  //copy elements from main_vector to temp_copy_vector
+			 // copy elements from main_vector to temp_copy_vector
 			while (main_vector != pointer) {
 				*temp_copy_vector++ = std::move(*main_vector++);
 				pointer_moves++;
 			};
-			pointer = &temp_copy_vector[0]; //point the last element of temp_copy_vector
+			pointer = &temp_copy_vector[0]; // point the last element of temp_copy_vector
 
-											//move back main_vector and temp_copy_vector on initial position
+			// move back main_vector and temp_copy_vector on initial position
 			for (size_t i = 0; i < pointer_moves; ++i) {
 				main_vector--;
 				temp_copy_vector--;
 			}
 
-			delete[] main_vector; //dealocate main_vector's memory
+			delete[] main_vector; // dealocate main_vector's memory
 
 			vector_size++;
-			main_vector = new Type[capacity]; //alocate memory for main_vector
+			main_vector = new Type[capacity]; // alocate memory for main_vector
 
-											  //copy elements from temp_copy_vector to main_vector
+			// copy elements from temp_copy_vector to main_vector
 			while (temp_copy_vector != pointer) {
 				*main_vector++ = std::move(*temp_copy_vector++);
 			}
 
-			main_vector[0] = value; //add element to the main_vector
+			main_vector[0] = value; // add element to the main_vector
 
-									//move back main_vector and temp_copy_vector on initial position
+			// move back main_vector and temp_copy_vector on initial position
 			for (size_t i = 0; i < pointer_moves; ++i) {
 				main_vector--;
 				temp_copy_vector--;
 			}
 
-			delete[] temp_copy_vector; //dealocate temp_copy_vector's memory
+			delete[] temp_copy_vector; // dealocate temp_copy_vector's memory
 		}
 	}
 
@@ -192,39 +200,39 @@ namespace vec {
 			7) Dealocate temp_copy_vector's memory
 			*/
 
-			vector_size--;  //reduction vector_size by one
+			vector_size--;  // reduction vector_size by one
 
-			Type *temp_copy_vector = new Type[vector_size]; //alocate memory for temp_copy_vector which is destination for copying elements from main_vector
-			Type *pointer = &main_vector[vector_size]; //point one-past-the-end element of main_vector
-			size_t pointer_moves = 0; //variable counts temp_copy_vector's and main_vector's moves during copying elements
+			Type *temp_copy_vector = new Type[vector_size]; // alocate memory for temp_copy_vector which is destination for copying elements from main_vector
+			Type *pointer = &main_vector[vector_size]; // point one-past-the-end element of main_vector
+			size_t pointer_moves = 0; // variable counts temp_copy_vector's and main_vector's moves during copying elements
 
-									  //copy elements from main_vector to temp_copy_vector
+			// copy elements from main_vector to temp_copy_vector
 			while (main_vector != pointer) {
 				*temp_copy_vector++ = std::move(*main_vector++);
 				pointer_moves++;
 			}
-			pointer = &temp_copy_vector[0]; //point the last element of temp_copy_vector
+			pointer = &temp_copy_vector[0]; // point the last element of temp_copy_vector
 
-											//move back main_vector and temp_copy_vector on initial position
+			// move back main_vector and temp_copy_vector on initial position
 			for (size_t i = 0; i < pointer_moves; ++i) {
 				main_vector--;
 				temp_copy_vector--;
 			}
 
-			main_vector = new (main_vector)Type[vector_size]; //placement new
+			main_vector = new (main_vector)Type[vector_size]; // placement new
 
-															  //copy elements from temp_copy_vector to main_vector
+			/ /copy elements from temp_copy_vector to main_vector
 			while (temp_copy_vector != pointer) {
 				*main_vector++ = std::move(*temp_copy_vector++);
 			}
 
-			//move back main_vector and temp_copy_vector on initial position
+			// move back main_vector and temp_copy_vector on initial position
 			for (size_t i = 0; i < pointer_moves; ++i) {
 				main_vector--;
 				temp_copy_vector--;
 			}
 
-			delete[] temp_copy_vector; //dealocate temp_copy_vector's memory
+			delete[] temp_copy_vector; // dealocate temp_copy_vector's memory
 		}
 	}
 
