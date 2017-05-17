@@ -93,7 +93,7 @@ namespace vec {
 
 	// move operator =
 	template<class Type>
-	Vector<Type>& Vector<Type>::operator=(Vector<Type>&& move_copy) {
+	Vector<Type>& Vector<Type>::operator=(Vector<Type> &&move_copy) {
 		if (this == &move_copy)
 			return *this;
 
