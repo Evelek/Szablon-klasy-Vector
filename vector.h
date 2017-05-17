@@ -33,6 +33,7 @@ namespace vec {
 		void sort_ascending();
 		void sort_descending();
 	};
+	
 	template<class Type>
 	Vector<Type>::Vector() {
 		capacity = 10;
